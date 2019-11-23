@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Movie</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <img src="https://m.media-amazon.com/images/M/MV5BMTQ1MjQwMTE5OF5BMl5BanBnXkFtZTgwNjk3MTcyMDE@._V1_SX300.jpg"
+        class="background">
+    <input type="text" class="search-box" value="13 reasons why" onchange="search()" placeholder="Search movies">
+
+    <img src="https://m.media-amazon.com/images/M/MV5BMTQ1MjQwMTE5OF5BMl5BanBnXkFtZTgwNjk3MTcyMDE@._V1_SX300.jpg"
+        class="BG">
+    <div class="info-box">
+        <div class="year">2013</div>
+        <textarea readonly class="title">Frozen</textarea>
+        <marquee class="actors">Kristen Bell, Idina Menzel, Jonathan Groff, Josh Gad</marquee>
+        <textarea readonly
+            class="plot">Anna, a fearless optimist, sets off on an epic journey - teaming up with rugged mountain man Kristoff and his loyal reindeer Sven - to find her sister Elsa, whose icy powers have trapped the kingdom of Arendelle in eternal winter. Encountering Everest-like conditions, mystical trolls and a hilarious snowman named Olaf, Anna and Kristoff battle the elements in a race to save the kingdom. From the outside Anna's sister, Elsa looks poised, regal and reserved, but in reality, she lives in fear as she wrestles with a mighty secret-she was born with the power to create ice and snow. It's a beautiful ability, but also extremely dangerous. Haunted by the moment her magic nearly killed her younger sister Anna, Elsa has isolated herself, spending every waking minute trying to suppress her growing powers. Her mounting emotions trigger the magic, accidentally setting off an eternal winter that she can't stop. She fears she's becoming a monster and that no one, not even her sister, can help her.</textarea>
+        <div class="director">Directed By: Chris Buck, Jennifer Lee</div>
+        <div class="genre">Genre: Animation, Adventure, Comedy</div>
+        <div class="imdb">IMDb Rating: 7.5</div>
+        <div class="bf">Box Office: $400,736,600</div>
+        <div class="production">Production: Walt Disney Pictures</div>
+        <div class="awards">Awards: Won 2 Oscars. Another 77 wins</div>
+        <div class="language">Language: English, Norvegian</div>
+        <div class="released">Released on: 18 Mar 2014</div>
+        <div class="rated">Rated: PG</div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        search();
+        function search() {
+            window.scrollTo(0, 0);
+            var x = document.querySelector('.search-box').value;
+            var api = "https://www.omdbapi.com/?apikey=d593791a&t=" + x + "&plot=full";
+            $.getJSON(api, response);
+        }
+        function response(data) {
+            if (data.Response == ("True")) {
+                document.querySelector('.title').innerHTML = data.Title;
+                document.querySelector('.director').innerHTML = "Director: " + data.Director;
+                document.querySelector('.genre').innerHTML = "Genre: " + data.Genre;
+                document.querySelector('.imdb').innerHTML = "IMDb Rating: " + data.imdbRating;
+                document.querySelector('.bf').innerHTML = "Box Office: " + data.BoxOffice;
+                document.querySelector('.production').innerHTML = "Production: " + data.Production;
+                document.querySelector('.awards').innerHTML = "Awards: " + data.Awards;
+                document.querySelector('.language').innerHTML = "Language: " + data.Language;
+                document.querySelector('.released').innerHTML = "Released on: " + data.Released;
+                document.querySelector('.rated').innerHTML = "Rated: " + data.Rated;
+                if (data.Year.charAt(4) == '–')
+                    document.querySelector('.year').innerHTML = "Since " + data.Year.substring(0, 4) + " |";
+                else
+                    document.querySelector('.year').innerHTML = data.Year + " |";
+                document.querySelector('.BG').src = data.Poster;
+                document.querySelector('.background').src = data.Poster;
+                document.querySelector('.actors').innerHTML = data.Actors;
+                document.querySelector('.plot').innerHTML = data.Plot;
+            }
+            else
+                alert("Seems like you did not enter a valid movie name, check spelling and if it still does not come up, it means Movie is a dummy.")
+            document.querySelector('.search-box').value = "";
+        }
+    </script>
+</body>
+
+</html>
